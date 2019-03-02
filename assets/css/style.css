@@ -1,0 +1,70 @@
+body {
+    /* padding-top: 5rem; */
+    /* background: url(../images/background.jpg); */
+    background-color: #da9835da;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../images/background.jpg);
+    font-family: 'Courier New', Courier, monospace;
+    
+}
+
+.card {
+    height: 210px;
+    width: 160px;
+    padding: 5px 5px;
+    background: white;
+    border: 1px solid black;
+}
+
+.card-title {
+    margin-top: -20px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.0em;
+    height: 35px;
+}
+
+.card-img {
+    background: url(../images/characters.jpg) no-repeat;
+    /* background-position: -445px -410px; */
+    height: 130px;
+    width: 110px;
+    display: block;
+    margin-top: -5px;
+}
+
+.card-text {
+    text-align: center;
+    font-size: 1.0em;
+}
+
+#player {
+    background: url(../images/characters.jpg) no-repeat left top;
+    
+    background-position: -8px -140px;
+    background-position: -15px -280px;
+    background-position: -15px -400px;
+    background-position: -15px -560px;
+    background-position: -15px -690px;
+    background-position: -15px -830px;
+    background-position: -15px -950px;
+    
+    background-position: -445px -145px;
+    background-position: -450px -275px;
+    background-position: -445px -410px; /*Chancellor Palpatine*/
+    background-position: -450px -540px;
+    background-position: -450px -690px;
+    background-position: -450px -830px;
+    background-position: -450px -950px;
+
+
+    height: 130px;
+    width: 110px;
+
+    
+
+    
+    display: block;
+}
+
