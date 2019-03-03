@@ -30,6 +30,7 @@ function Player() {
         this.position = characterList[index1].position;
         this.indexOfList = index1;
         this.indexOfCreated = index2;
+        this.attacksMade = 0;
     }
 
     this.init = function () {
@@ -126,6 +127,9 @@ function printCharacters() {
         cardBody.append(cardHealth);
 
         $("#characters").append(cardDiv);
+        $("#attack").hide();
+        $("#restart").hide();
+        $("#statusarea").text("");
     }
 }
 
@@ -152,7 +156,8 @@ function checkGameStatus(playerChosen, enemyChosen) {
     if (characters[enemyChosen].healthPoints <= 0) {
         $("#statusarea").text("You have defeated " + characters[enemyChosen].name + ", you can choose to fight another enemy.");
         $("#" + characters[enemyChosen].id).hide();
-        $("#defenderarea").find(".characters").text("");
+        //$("#defenderarea").find(".characters").text("");
+        $("#defenderarea").find(".characters").appendTo("#characters");
         $("#enemies").find(".characters").css("border", "7px solid red");
     }
 
@@ -160,7 +165,7 @@ function checkGameStatus(playerChosen, enemyChosen) {
         $("#statusarea").text("Choose another enemy to continue . . .");
     }
 
-    if (! checkEnemies(playerChosen)) {
+    if (!checkEnemies(playerChosen)) {
         $("#statusarea").text("You have defeated all enemies. Click restart to play again.");
         $("#attack").hide();
         $("#restart").show();
@@ -177,23 +182,19 @@ function checkEnemies(playerChosen) {
 }
 
 
-
 $(document).ready(function () {
     var playerChosen = -1;
     var enemyChosen = -1;
 
     printCharacters();
 
-    $("#attack").hide();
-    $("#restart").hide();
-
     $(".characters").click(function () {
+
         if (enemyChosen === -1 && playerChosen != -1) {
             $("#attack").show();
             $(this).appendTo("#defenderarea");
             enemyChosen = getCharacterIndex($(this).attr("id"));
             $("#enemies").find(".characters").css("border", "7px solid salmon");
-            // $("#enemies").find(".characters").off("click");
         }
 
         if (playerChosen === -1) {
@@ -203,39 +204,47 @@ $(document).ready(function () {
 
             $("#enemies").find(".characters").css("border", "7px solid red");
             $(this).css("border", "7px solid lightgreen");
-            // $(this).off("click");
-
+            
             $("#yourcharacter, #enemies, #defenderarea").css("min-height", "280px");
         }
 
     });
 
     $("#attack").click(function () {
-        if ($("#defenderarea").find(".characters").text() != "") {
+        if ($("#defenderarea").find(".characters").text() != "" && playerChosen != -1) {
             characters[playerChosen].attack(characters[enemyChosen]);
-            
+
             updateHealth(playerChosen, enemyChosen);
             updateStatus(playerChosen, enemyChosen);
             checkGameStatus(playerChosen, enemyChosen);
         }
 
-
-
-        if (checkEnemies(playerChosen) && enemyChosen != -1 ) {
+        if (checkEnemies(playerChosen) && enemyChosen != -1) {
             if (characters[enemyChosen].healthPoints <= 0) {
                 enemyChosen = -1;
             }
         }
 
-        
-
-        //console.log("2 enemyChosen: " + enemyChosen);
     });
 
     $("#restart").click(function () {
-        console.log("enemyChosen: " + enemyChosen);
-        // Vars to reset
-    });
+        for (var i = 0; i < characters.length; i++) {
+            $("#" + characters[i].id).show();
+            characters[i].updatePlayer(characters[i].indexOfList, characters[i].indexOfCreated);
+            $("#" + characters[i].id).find(".card-text").text(characters[i].healthPoints);
+        }
 
+        $("#characters").appendTo(".main");
+        $("#yourcharacter").find(".characters").appendTo("#characters");
+        $("#restart").hide();
+        $("#statusarea").text("");
+
+        playerChosen = -1;
+        enemyChosen = -1;
+
+        $("#yourcharacter, #enemies, #defenderarea").css("min-height", "0px");
+        $("#characters").find(".characters").css("border", "none");
+
+    });
 
 }); 
