@@ -1,4 +1,4 @@
-var characters = [
+var characterList = [
     { id: "ahsoka",     name: "Ahsoka Tano",            healthPoints: 150, attackPower: 10, counterAttack: 5, position: "-8px   -140px" },
     { id: "anakin",     name: "Anakin Skywalker",       healthPoints: 150, attackPower: 10, counterAttack: 5, position: "-8px   -280px" },
     { id: "obiwan",     name: "Obi-Wan Kenobi",         healthPoints: 150, attackPower: 10, counterAttack: 5, position: "-8px   -400px" },
@@ -15,61 +15,62 @@ var characters = [
     { id: "wilhuff",    name: "Wilhuff Tarkin",         healthPoints: 150, attackPower: 10, counterAttack: 5, position: "-445px -955px" }
 ];
 
-var testIndex = 13;
+function getCharacterForGame (numChars) {
+    var tempList = [];
+    for (var i=0; i < numChars; i++) {
+        while ( true ) {
+            var index = Math.floor(Math.random() * characterList.length);
+            if ( tempList.indexOf(index) == -1 )
+            {
+                tempList.push(index);
+                break;
+            }
+        }
+    }
+    return tempList;
+}
+
+var characters = getCharacterForGame(4);
+
+function printCharacters() {
+
+    for (var i = 0; i < 4; i++) {
+
+        var cardDiv = $("<div>");
+        cardDiv.attr("class", "card character");
+        cardDiv.attr("id", characterList[characters[i]].id);
+        
+        var cardBody = $("<div>");
+        cardBody.attr("class", "card-body");
+        
+        cardDiv.append(cardBody);
+        
+        var cardTitle = $("<h5>");
+        cardTitle.attr("class", "card-title");
+        cardTitle.text(characterList[characters[i]].name);
+        
+        var cardImg = $("<img>");
+        cardImg.attr("class", "card-img");
+       
+        cardImg.attr("alt", "");
+        cardImg.css("background-position", characterList[characters[i]].position);
+        
+        var cardHealth = $("<p>");
+        cardHealth.attr("class", "card-text");
+        cardHealth.text(characterList[characters[i]].healthPoints);
+        
+        cardBody.append(cardTitle);
+        cardBody.append(cardImg);
+        cardBody.append(cardHealth);
+        
+        $("#characters").append(cardDiv);
+    }
+}
+
 
 $(document).ready(function () {
+    printCharacters();   
 
-var cardDiv = $("<div>");
-cardDiv.attr("class", "card character");
-
-var cardBody = $("<div>");
-cardBody.attr("class", "card-body");
-
-cardDiv.append(cardBody);
-
-var cardTitle = $("<h5>");
-cardTitle.attr("class", "card-title");
-cardTitle.text(characters[testIndex].name);
-
-var cardImg = $("<img>");
-cardImg.attr("class", "card-img");
-//cardImg.attr("src", "assets/images/characters.jpg");
-//cardImg.attr("src", "https://via.placeholder.com/120x50");
-cardImg.attr("alt", "");
-cardImg.css("background-position", characters[testIndex].position);
-
-var cardHealth = $("<p>");
-cardHealth.attr("class", "card-text");
-cardHealth.text(characters[testIndex].healthPoints);
-
-cardBody.append(cardTitle);
-cardBody.append(cardImg);
-cardBody.append(cardHealth);
-
-$("#characters").append(cardDiv);
-
-
-
-
-
-
-
-
-
-
-// cardBody.append(cardImg);
-// cardBody.append(cardText);
-
-
-
-
-
-
-
-// $(".character").append(cardTitle);
-// $(".character").append(cardImg);
-// $(".character").append(cardHealth);
-
-
+//$("#yoda").remove();
 
 });

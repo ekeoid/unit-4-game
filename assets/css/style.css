@@ -6,12 +6,22 @@ body {
     background-size: cover;
     background-image: url(../images/background.jpg);
     font-family: 'Courier New', Courier, monospace;
+    height: 100vh;
     
 }
 
+.xcol {
+    position: relative;
+    left: 0;
+}
+
+.character {
+    width: 160px;
+}
 .card {
     height: 210px;
-    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
     padding: 5px 5px;
     background: white;
     border: 1px solid black;
