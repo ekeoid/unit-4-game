@@ -1,5 +1,9 @@
-// Array characterList exists in external file.
+// Star Wars RPG for Coding Bootcamp Class
+// Elvin Eng - 2019
+
+// var characterList = Array that exists in external file
 var charactersCreated = [];
+var characters = getCharacterForGame(4);
 
 function Player() {
     this.name = "";
@@ -53,51 +57,37 @@ function Player() {
                 }
             }
         }
-
-
-
-
     }
 
 
-} // function Player();
+} // end of function Player();
 
-
-
-
-
-
-
-
-
-
-
-
-/*
 function getCharacterForGame(numChars) {
-    var tempList = [];
+    var tempPlayerList = [];
+
     for (var i = 0; i < numChars; i++) {
-        while (true) {
-            var index = Math.floor(Math.random() * characterList.length);
-            if (tempList.indexOf(index) == -1) {
-                tempList.push(index);
-                break;
-            }
-        }
+        tempPlayerList.push(new Player());
+        tempPlayerList[i].init();
     }
-    return tempList;
+    return tempPlayerList;
 }
 
-//var characters = getCharacterForGame(4);
+function getCharacterIndex(id) {
+    for (var i = 0; i < characters.length; i++) {
+        if (characters[i].id === id) {
+            return i;
+        }
+    }
+    return -1;
+}
 
-*/
 
 function printCharacters() {
 
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < characters.length; i++) {
 
         var cardDiv = $("<div>");
-        cardDiv.attr("class", "card character");
+        cardDiv.attr("class", "card characters");
         cardDiv.attr("id", characters[i].id);
 
         var cardBody = $("<div>");
@@ -128,18 +118,34 @@ function printCharacters() {
 }
 
 
-var characters = Array(4);
 
-for (var i = 0; i < 4; i++) {
-    characters[i] = new Player();
-    characters[i].init();
-}
 
-characters[2].init();
 
 $(document).ready(function () {
+    var characterChosen = -1;
+    var enemyChosen = -1;
+    //var characterChosen = "";
+    //var enemyChosen = "";
     printCharacters();
 
+    $(".characters").click(function () {
+
+        if (characterChosen === -1) {
+            $(this).appendTo("#yourcharacter");
+            $("#characters").appendTo("#enemies");
+            console.log($(this).attr("id"));
+            characterChosen = getCharacterIndex($(this).attr("id"));
+            console.log(characterChosen);
+
+            $("#enemies").find(".characters").css("border", "7px solid red");
+            $(this).css("border", "7px solid lightgreen");
+            
+            // making character unclickable
+            //$(this).off("click");
+
+        }
+
+    });
     //$("#yoda").remove();
 
 }); 
