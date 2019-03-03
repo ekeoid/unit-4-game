@@ -70,6 +70,6 @@ h4 {
 }
 
 .zone {
-    background-color: rgba(250, 250, 250, 0.20);
-    padding-bottom: 5px;
+    background-color: rgba(250, 250, 250, 0.10);
+    padding-bottom: 5px;  
 }

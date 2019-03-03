@@ -61,12 +61,14 @@ function Player() {
     }
 
     this.attack = function (enemy) {
-        var baseAttackPower = this.attackPower / (this.attacksMade == 0 ? 1 : this.attacksMade);
+        if (this.healthPoints > 0 && enemy.healthPoints > 0) {
+            var baseAttackPower = this.attackPower / (this.attacksMade == 0 ? 1 : this.attacksMade);
 
-        this.attacksMade += 1;               
-        this.attackPower = baseAttackPower * this.attacksMade;
-        enemy.healthPoints -= this.attackPower;
-        this.healthPoints  -= enemy.counterAttackPower;
+            this.attacksMade += 1;
+            this.attackPower = baseAttackPower * this.attacksMade;
+            enemy.healthPoints -= this.attackPower;
+            this.healthPoints  -= enemy.counterAttackPower;
+        }        
     }
 
 
@@ -138,39 +140,45 @@ function updateStatus(playerChosen, enemyChosen) {
 }
 
 function checkGameStatus(playerChosen, enemyChosen) {
-    if ( characters[playerChosen].healthPoints < 0 ) {
+
+    if ( characters[playerChosen].healthPoints <= 0 ) {        
         $("#statusarea").text("You have been defeated . . . GAME OVER !!! ");
         $("#restart").show();
         // You Lose && Restart
     }
 
-    if ( characters[enemyChosen].healthPoints < 0 ) {
+    if ( characters[enemyChosen].healthPoints <= 0 ) {
         $("#statusarea").text("You have defeated " + characters[enemyChosen].name + ", you can choose to fight another enemy.");
-        $("#restart").show();
-        // hide enemy
-        // all selecting another enemy
+        $("#" + characters[enemyChosen].id).hide();
+        $("#enemies").find(".characters").css("border", "7px solid red");
+        // $("#enemies").find(".characters").on("click", function () {
+        //     $(this).appendTo("#defenderarea");            
+        //     $("#enemies").find(".characters").off("click");
+        //     return getCharacterIndex($(this).attr("id"));
+        // });
     }
+
+    // return enemyChosen;
 }
+
 
 
 $(document).ready(function () {
     var playerChosen = -1;
     var enemyChosen = -1;
-    
 
     printCharacters();
 
     $("#attack").hide();
-    //$("#restart").hide();
+    $("#restart").hide();
 
     $(".characters").click(function () {
-
         if (enemyChosen === -1 && playerChosen != -1) {
             $("#attack").show();
             $(this).appendTo("#defenderarea");
             enemyChosen = getCharacterIndex($(this).attr("id"));
             $("#enemies").find(".characters").css("border", "7px solid salmon");
-            $("#enemies").find(".characters").off("click");
+            // $("#enemies").find(".characters").off("click");
         }
         
         if (playerChosen === -1) {
@@ -180,19 +188,31 @@ $(document).ready(function () {
 
             $("#enemies").find(".characters").css("border", "7px solid red");
             $(this).css("border", "7px solid lightgreen");
-            $(this).off("click");
+            // $(this).off("click");
+
+            $("#yourcharacter, #enemies, #defenderarea").css("min-height","280px");
         }
 
     });
 
     $("#attack").click(function () {
+        console.log("Attk enemyChosen: " + enemyChosen);
+        console.log("Attk playerChosen: " + playerChosen);
         characters[playerChosen].attack(characters[enemyChosen]);
         updateHealth(playerChosen, enemyChosen);
         updateStatus(playerChosen, enemyChosen);
+        console.log("1 enemyChosen: " + enemyChosen);
         checkGameStatus(playerChosen, enemyChosen);
+
+        if ( characters[enemyChosen].healthPoints <= 0 ) {
+            enemyChosen = -1;
+        }
+
+        console.log("2 enemyChosen: " + enemyChosen);
     });
 
     $("#restart").click(function () {
+        console.log("enemyChosen: " + enemyChosen);
         // Vars to reset
     });
     
