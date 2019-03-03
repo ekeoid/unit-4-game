@@ -151,14 +151,7 @@ function checkGameStatus(playerChosen, enemyChosen) {
         $("#statusarea").text("You have defeated " + characters[enemyChosen].name + ", you can choose to fight another enemy.");
         $("#" + characters[enemyChosen].id).hide();
         $("#enemies").find(".characters").css("border", "7px solid red");
-        // $("#enemies").find(".characters").on("click", function () {
-        //     $(this).appendTo("#defenderarea");            
-        //     $("#enemies").find(".characters").off("click");
-        //     return getCharacterIndex($(this).attr("id"));
-        // });
     }
-
-    // return enemyChosen;
 }
 
 
