@@ -138,7 +138,18 @@ function updateStatus(playerChosen, enemyChosen) {
 }
 
 function checkGameStatus(playerChosen, enemyChosen) {
-    
+    if ( characters[playerChosen].healthPoints < 0 ) {
+        $("#statusarea").text("You have been defeated . . . GAME OVER !!! ");
+        $("#restart").show();
+        // You Lose && Restart
+    }
+
+    if ( characters[enemyChosen].healthPoints < 0 ) {
+        $("#statusarea").text("You have defeated " + characters[enemyChosen].name + ", you can choose to fight another enemy.");
+        $("#restart").show();
+        // hide enemy
+        // all selecting another enemy
+    }
 }
 
 
@@ -150,7 +161,7 @@ $(document).ready(function () {
     printCharacters();
 
     $("#attack").hide();
-    $("#restart").hide();
+    //$("#restart").hide();
 
     $(".characters").click(function () {
 
@@ -179,6 +190,10 @@ $(document).ready(function () {
         updateHealth(playerChosen, enemyChosen);
         updateStatus(playerChosen, enemyChosen);
         checkGameStatus(playerChosen, enemyChosen);
+    });
+
+    $("#restart").click(function () {
+        // Vars to reset
     });
     
 

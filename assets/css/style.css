@@ -1,6 +1,4 @@
 body {
-    /* padding-top: 5rem; */
-    /* background: url(../images/background.jpg); */
     background-color: #da9835da;
     background-repeat: no-repeat;
     background-size: cover;
@@ -49,38 +47,29 @@ body {
     font-size: 1.0em;
 }
 
+h2 {
+    font-weight: bolder;
+    text-align: right;
+    letter-spacing: 5px;
+}
+
+h4 {
+    padding-top: 20px;
+    color: black;
+    font-weight: bold;
+}
 
 #statusarea {
     margin-top: 75px;
     font-size: 1.2em;
 }
 
-#player {
-    background: url(../images/characters.jpg) no-repeat left top;
-    
-    background-position: -8px -140px;
-    background-position: -15px -280px;
-    background-position: -15px -400px;
-    background-position: -15px -560px;
-    background-position: -15px -690px;
-    background-position: -15px -830px;
-    background-position: -15px -950px;
-    
-    background-position: -445px -145px;
-    background-position: -450px -275px;
-    background-position: -445px -410px; /*Chancellor Palpatine*/
-    background-position: -450px -540px;
-    background-position: -450px -690px;
-    background-position: -450px -830px;
-    background-position: -450px -950px;
-
-
-    height: 130px;
-    width: 110px;
-
-    
-
-    
-    display: block;
+#restart {
+    margin-top: 20px;
+    margin-left: 10px;
 }
 
+.zone {
+    background-color: rgba(250, 250, 250, 0.20);
+    padding-bottom: 5px;
+}
