@@ -128,22 +128,30 @@ $(document).ready(function () {
     //var enemyChosen = "";
     printCharacters();
 
+    $("#attack").hide();
+    $("#restart").hide();
+
     $(".characters").click(function () {
 
+        if (enemyChosen === -1 && characterChosen != -1) {
+            $("#attack").show();
+            $(this).appendTo("#fightarea");
+            enemyChosen = getCharacterIndex($(this).attr("id"));
+            $("#enemies").find(".characters").css("border", "7px solid salmon");
+            $("#enemies").find(".characters").off("click");
+        }
+        
         if (characterChosen === -1) {
             $(this).appendTo("#yourcharacter");
             $("#characters").appendTo("#enemies");
-            console.log($(this).attr("id"));
             characterChosen = getCharacterIndex($(this).attr("id"));
-            console.log(characterChosen);
 
             $("#enemies").find(".characters").css("border", "7px solid red");
             $(this).css("border", "7px solid lightgreen");
-            
-            // making character unclickable
-            //$(this).off("click");
-
+            $(this).off("click");
         }
+
+        
 
     });
     //$("#yoda").remove();
