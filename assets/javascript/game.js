@@ -15,12 +15,13 @@ function Player() {
     this.position = "";
     this.indexOfCreated = -1;
     this.indexOfList = -1;
+    this.attacksMade = 0;
 
     this.getName = function () {
         return this.name;
     }
 
-    this.update = function (index1, index2) {
+    this.updatePlayer = function (index1, index2) {
         this.id = characterList[index1].id;
         this.name = characterList[index1].name;
         this.healthPoints = characterList[index1].healthPoints;
@@ -35,7 +36,7 @@ function Player() {
         if (charactersCreated.length == 0) {
             var index = Math.floor(Math.random() * characterList.length);
             charactersCreated.push(index);
-            this.update(index, 0);
+            this.updatePlayer(index, 0);
         } else {
             var tempList = [];
 
@@ -47,16 +48,25 @@ function Player() {
                 var index = Math.floor(Math.random() * characterList.length);
                 if (tempList.indexOf(index) == -1) {
                     if (this.indexOfCreated < charactersCreated.length && this.indexOfCreated != -1) {
-                        this.update(index, this.indexOfCreated);
+                        this.updatePlayer(index, this.indexOfCreated);
                         charactersCreated[this.indexOfCreated] = index;
                     } else {
                         charactersCreated.push(index);
-                        this.update(index, charactersCreated.length - 1);
+                        this.updatePlayer(index, charactersCreated.length - 1);
                     }
                     break;
                 }
             }
         }
+    }
+
+    this.attack = function (enemy) {
+        var baseAttackPower = this.attackPower / (this.attacksMade == 0 ? 1 : this.attacksMade);
+
+        this.attacksMade += 1;               
+        this.attackPower = baseAttackPower * this.attacksMade;
+        enemy.healthPoints -= this.attackPower;
+        this.healthPoints  -= enemy.counterAttackPower;
     }
 
 
@@ -80,7 +90,6 @@ function getCharacterIndex(id) {
     }
     return -1;
 }
-
 
 function printCharacters() {
 
@@ -117,15 +126,27 @@ function printCharacters() {
     }
 }
 
+function updateHealth(playerChosen, enemyChosen) {
+    $("#yourcharacter").find(".card-text").text(characters[playerChosen].healthPoints);
+    $("#defenderarea").find(".card-text").text(characters[enemyChosen].healthPoints);
+}
 
+function updateStatus(playerChosen, enemyChosen) {
+    $("#statusarea").css("color", "white");
+    $("#statusarea").text("You have attacked " + characters[enemyChosen].name + " for " + characters[playerChosen].attackPower + " attack points");
+    $("#statusarea").append("</br>" + characters[enemyChosen].name + " has attacked you for " + characters[enemyChosen].counterAttackPower + " attack points.");
+}
 
+function checkGameStatus(playerChosen, enemyChosen) {
+    
+}
 
 
 $(document).ready(function () {
-    var characterChosen = -1;
+    var playerChosen = -1;
     var enemyChosen = -1;
-    //var characterChosen = "";
-    //var enemyChosen = "";
+    
+
     printCharacters();
 
     $("#attack").hide();
@@ -133,27 +154,32 @@ $(document).ready(function () {
 
     $(".characters").click(function () {
 
-        if (enemyChosen === -1 && characterChosen != -1) {
+        if (enemyChosen === -1 && playerChosen != -1) {
             $("#attack").show();
-            $(this).appendTo("#fightarea");
+            $(this).appendTo("#defenderarea");
             enemyChosen = getCharacterIndex($(this).attr("id"));
             $("#enemies").find(".characters").css("border", "7px solid salmon");
             $("#enemies").find(".characters").off("click");
         }
         
-        if (characterChosen === -1) {
+        if (playerChosen === -1) {
             $(this).appendTo("#yourcharacter");
             $("#characters").appendTo("#enemies");
-            characterChosen = getCharacterIndex($(this).attr("id"));
+            playerChosen = getCharacterIndex($(this).attr("id"));
 
             $("#enemies").find(".characters").css("border", "7px solid red");
             $(this).css("border", "7px solid lightgreen");
             $(this).off("click");
         }
 
-        
-
     });
-    //$("#yoda").remove();
+
+    $("#attack").click(function () {
+        characters[playerChosen].attack(characters[enemyChosen]);
+        updateHealth(playerChosen, enemyChosen);
+        updateStatus(playerChosen, enemyChosen);
+        checkGameStatus(playerChosen, enemyChosen);
+    });
+    
 
 }); 

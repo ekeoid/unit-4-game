@@ -49,6 +49,12 @@ body {
     font-size: 1.0em;
 }
 
+
+#statusarea {
+    margin-top: 75px;
+    font-size: 1.2em;
+}
+
 #player {
     background: url(../images/characters.jpg) no-repeat left top;
     
