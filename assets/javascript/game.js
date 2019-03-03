@@ -61,12 +61,15 @@ function Player() {
     }
 
     this.attack = function (enemy) {
-        var baseAttackPower = this.attackPower / (this.attacksMade == 0 ? 1 : this.attacksMade);
+        // add if enemy is defenderarea?
+        if (this.healthPoints > 0 && enemy.healthPoints > 0) {
+            var baseAttackPower = this.attackPower / (this.attacksMade == 0 ? 1 : this.attacksMade);
 
-        this.attacksMade += 1;               
-        this.attackPower = baseAttackPower * this.attacksMade;
-        enemy.healthPoints -= this.attackPower;
-        this.healthPoints  -= enemy.counterAttackPower;
+            this.attacksMade += 1;
+            this.attackPower = baseAttackPower * this.attacksMade;
+            enemy.healthPoints -= this.attackPower;
+            this.healthPoints -= enemy.counterAttackPower;
+        }
     }
 
 
@@ -138,14 +141,46 @@ function updateStatus(playerChosen, enemyChosen) {
 }
 
 function checkGameStatus(playerChosen, enemyChosen) {
-    
+    $("#statusarea").css("color", "white");
+
+    if (characters[playerChosen].healthPoints <= 0) {
+        $("#statusarea").text("You have been defeated . . . GAME OVER !!! ");
+        $("#restart").show();
+        // You Lose && Restart
+    }
+
+    if (characters[enemyChosen].healthPoints <= 0) {
+        $("#statusarea").text("You have defeated " + characters[enemyChosen].name + ", you can choose to fight another enemy.");
+        $("#" + characters[enemyChosen].id).hide();
+        $("#defenderarea").find(".characters").text("");
+        $("#enemies").find(".characters").css("border", "7px solid red");
+    }
+
+    if ($("#defenderarea").find(".characters").text() == "" && checkEnemies(playerChosen)) {
+        $("#statusarea").text("Choose another enemy to continue . . .");
+    }
+
+    if (! checkEnemies(playerChosen)) {
+        $("#statusarea").text("You have defeated all enemies. Click restart to play again.");
+        $("#attack").hide();
+        $("#restart").show();
+    }
 }
+
+function checkEnemies(playerChosen) {
+    var anyEnemiesLeft = 0;
+    for (var i = 0; i < characters.length; i++) {
+        if (characters[i].healthPoints > 0 && characters[i].indexOfCreated != playerChosen)
+            anyEnemiesLeft++;
+    }
+    return (anyEnemiesLeft > 0 ? true : false);
+}
+
 
 
 $(document).ready(function () {
     var playerChosen = -1;
     var enemyChosen = -1;
-    
 
     printCharacters();
 
@@ -153,15 +188,14 @@ $(document).ready(function () {
     $("#restart").hide();
 
     $(".characters").click(function () {
-
         if (enemyChosen === -1 && playerChosen != -1) {
             $("#attack").show();
             $(this).appendTo("#defenderarea");
             enemyChosen = getCharacterIndex($(this).attr("id"));
             $("#enemies").find(".characters").css("border", "7px solid salmon");
-            $("#enemies").find(".characters").off("click");
+            // $("#enemies").find(".characters").off("click");
         }
-        
+
         if (playerChosen === -1) {
             $(this).appendTo("#yourcharacter");
             $("#characters").appendTo("#enemies");
@@ -169,17 +203,39 @@ $(document).ready(function () {
 
             $("#enemies").find(".characters").css("border", "7px solid red");
             $(this).css("border", "7px solid lightgreen");
-            $(this).off("click");
+            // $(this).off("click");
+
+            $("#yourcharacter, #enemies, #defenderarea").css("min-height", "280px");
         }
 
     });
 
     $("#attack").click(function () {
-        characters[playerChosen].attack(characters[enemyChosen]);
-        updateHealth(playerChosen, enemyChosen);
-        updateStatus(playerChosen, enemyChosen);
-        checkGameStatus(playerChosen, enemyChosen);
+        if ($("#defenderarea").find(".characters").text() != "") {
+            characters[playerChosen].attack(characters[enemyChosen]);
+            
+            updateHealth(playerChosen, enemyChosen);
+            updateStatus(playerChosen, enemyChosen);
+            checkGameStatus(playerChosen, enemyChosen);
+        }
+
+
+
+        if (checkEnemies(playerChosen) && enemyChosen != -1 ) {
+            if (characters[enemyChosen].healthPoints <= 0) {
+                enemyChosen = -1;
+            }
+        }
+
+        
+
+        //console.log("2 enemyChosen: " + enemyChosen);
     });
-    
+
+    $("#restart").click(function () {
+        console.log("enemyChosen: " + enemyChosen);
+        // Vars to reset
+    });
+
 
 }); 
