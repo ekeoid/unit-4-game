@@ -236,6 +236,8 @@ $(document).ready(function () {
 
         $("#characters").appendTo(".main");
         $("#yourcharacter").find(".characters").appendTo("#characters");
+        $("#defenderarea").find(".characters").appendTo("#characters");
+        $("#attack").hide();
         $("#restart").hide();
         $("#statusarea").text("");
 
