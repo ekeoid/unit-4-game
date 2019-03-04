@@ -8,7 +8,7 @@ You can find the instructions for this assignment here: [homework-instructions.m
 
 The rest of this README will overview the interpretation of the game.
 
-[homework-instructions.md]: https://github.com/ekeoid/unit-4-game/blob/master/homework-instructions.md
+[homework-instructions.md]: https://github.com/ekeoid/unit-4-game/blob/master/assets/homework_instructions.md
 
 ### File Structure
 
@@ -27,6 +27,9 @@ The rest of this README will overview the interpretation of the game.
 ```
 
 #### JavaScript - `charlist.js`
+This file is simply just an array variable `characterList` that contains a set of values for the characters that are available for the game. The declaration is in JavaScript and it is a global variable, however the goal of scripting `game.js` will be to avoid reference this array, except for initially obtaining the value to a separate file-local variable.
+
+There are 14 characters in this list, all from the cartoon Star Wars: The Clone Wars. The array contains `id`, `name`, `healthPoints`, `attackPower`, `counterAttack`, and `position`. The `id` is used for shorthand notation for creating and tagging elements in the HTML. The `position` is grid coordinates for the character picture crop which is all taken from a single picture file. The rest of the attributes are used and defined by the game instructions.
 
 
 #### JavaScript - `game.js`
