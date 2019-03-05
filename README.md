@@ -66,7 +66,7 @@ This code is not that organized and a mess. The idea of the code structure was t
 >
 
 ##### `click (".characters")`
->
+> This event function is wrapped by `if` conditional statements so when a player and an enemy is chose, the characters cards are no longer click-able. Throughout the progress of the game, the card elements are hidden as the characters are defeated. These cards shift around the BootStrap sections, but are never removed, to keep the event handler with the DOM.
 
 ##### `click ("#attack")`
 >
