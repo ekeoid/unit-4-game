@@ -69,8 +69,10 @@ This code is not that organized and a mess. The idea of the code structure was t
 > This event function is wrapped by `if` conditional statements so when a player and an enemy is chose, the characters cards are no longer click-able. Throughout the progress of the game, the card elements are hidden as the characters are defeated. These cards shift around the BootStrap sections, but are never removed, to keep the event handler with the DOM.
 
 ##### `click ("#attack")`
->
+> This event function is tied to the attack button and is wrapped by `if` conditional statements.
+Player must be chosen and no enemy character has been selected, in order for attack to perform the function for the characters to take damage. The players `attack (arg1)` then `updateHealth (arg1, arg2)` then `updateStatus (arg1, arg2)` and lastly `checkGameStatus (arg1, arg2)`. Respectively, this attacks the characters, update the HTML health text, updates the display for the last activity, and finally checks all the players to make sure they are alive.
+> The other part of this event function checks that the enemy is defeated and modifies the `enemyChosen` index to `-1` to reset making no enemy chosen.
 
 ##### `click ("#restart")`
->
+> This event function is
 
