@@ -54,16 +54,20 @@ This code is not that organized and a mess. The idea of the code structure was t
 > This function receives a Player() object. It updates the damages done to both players and updates the `attacksMade` to keep track of the new `attackPower` stacked from continual attacks.
 
 ##### `updateHealth(int arg1, int arg2)`
->
+> This function receives 2 arguments, for the player and enemy index. The jQuery identifies the target character card using `$(-jQuery-).find()` to look for the child card elements for updating health points.
 
 ##### `updateStatus(int arg1, int arg2)`
->
+> This function writes to the status area of the HTML to display the characters attacking and text about the attack. It displays the attack and counter-attack.
 
 ##### `checkGameStatus(int arg1, int arg2)`
->
+> This function check 4 conditions.
+> If the player `healthPoints` is `<= 0`, the game is over and the restart button appears.
+> If the enemy `healthPoints` is `<= 0`, the ememy card is hidden, text is displayed for the success, appended back to the character id and the border colors are reset.
+> If the current enemy is defeated and enemies still remain, text is displayed to choose another enemy.
+> If all enemies have been defeated, the text updates to report all the enemies are defeated and hides the attack button and shows the restart button.
 
 ##### `checkEnemies(int arg1)`
->
+> This function checks the health of all the enemies, to help determine if they have been defeated. From the `charactersCreated[]` array, it ignores the `playerChosen` character.
 
 ##### `click (".characters")`
 > This event function is wrapped by `if` conditional statements so when a player and an enemy is chose, the characters cards are no longer click-able. Throughout the progress of the game, the card elements are hidden as the characters are defeated. These cards shift around the BootStrap sections, but are never removed, to keep the event handler with the DOM.
@@ -74,5 +78,6 @@ Player must be chosen and no enemy character has been selected, in order for att
 > The other part of this event function checks that the enemy is defeated and modifies the `enemyChosen` index to `-1` to reset making no enemy chosen.
 
 ##### `click ("#restart")`
-> This event function is
+> This event function is messy. This has an array and runs through all available characters and makes sure they are visible with `$(-jquery-).show()`. Within the loop, this it will reset the attributes of every character with `updatePlayer(arg1, arg2)` rematching with the master array `characterList[]`. Then the loop updates the HTML health text.
+> The next part of the event function resets the HTML elements and sets `playerChosen` and `enemyChosen` to `-1`. The HTML elements are relocated to the original starting position.
 
